@@ -241,20 +241,20 @@ async function estimateFrame() {
 
   var ictx = inputCanvas.getContext('2d');
   var dctx = debugCanvas.getContext('2d');
-  dctx.clearRect(0,0,dctx.canvas.width,dctx.canvas.height);
   
+  var testImageXPos = undefined;
   if (settings.useTestImage){
     if (!testImage){
       testImage = new Image;
       testImage.src = testImageUrl;
     }
     if (testImage.complete){
-      var x = Math.sin(frameCount*0.1)*20
-      ictx.drawImage(testImage,x,0);
-      dctx.drawImage(testImage,x,0);
+      testImageXPos = Math.sin(frameCount*0.1)*20;
+      ictx.drawImage(testImage,testImageXPos,0);
     }
   }else{
     ictx.drawImage(camera,0,0);
+
   }
   var poses = [];
   if (settings.multiplePoses){
@@ -281,6 +281,10 @@ async function estimateFrame() {
     +osc.options.plugin.options.send.host+":"
     +osc.options.plugin.options.send.port;
 
+  dctx.clearRect(0,0,dctx.canvas.width,dctx.canvas.height);
+  if (settings.useTestImage && testImageXPos != undefined){
+    dctx.drawImage(testImage,testImageXPos,0);
+  }
   poses.forEach((pose,i)=>{
     drawPose(pose,["white","cyan","magenta","yellow"][i%5]);
   })
