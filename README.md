@@ -18,7 +18,7 @@ npm install
 npm start
 ```
 
-macOS binary can be [downloaded here in release page](https://github.com/LingDong-/PoseOSC/releases/tag/v0.0.1). Binaries for other platforms coming soon.
+macOS binaries can be [downloaded here in release page](https://github.com/LingDong-/PoseOSC/releases). Binaries for other platforms coming soon.
 
 ## Parsing Received Data
 
