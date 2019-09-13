@@ -109,6 +109,12 @@ OSC host (something like 127.0.0.1) and OSC port (something like 8000). Press En
 
 One of `ADDR`, `XML`, `JSON`. See **Parsing Received Data** section for details.
 
+
+## More Settings
+
+More settings can be found in `settings.json`. Some settings involves initializing the neural net are only loaded on start up, such as `poseNetConig`. See [PoseNet documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet) on what options you can specify. (Hint: their new ResNet seem to be much slower but not much better :P)
+
+
 ## Tracking
 
 Posenet detects poses frame by frame, so there's no tracking at all that comes with it.
