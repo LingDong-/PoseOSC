@@ -9,7 +9,7 @@ Send realtime human pose estimation data to your apps!
 Screenshot with [OSC Data Monitor](https://www.kasperkamperman.com/blog/processing-code/osc-datamonitor/) in the background, the Processing demo can be found in `/demos` folder.
 
 
-## Installation
+## Download / Installation
 
 Use [NPM](http://npmjs.com) to install and run the app.
 
@@ -17,7 +17,8 @@ Use [NPM](http://npmjs.com) to install and run the app.
 npm install
 npm start
 ```
-Mac and Windows binaries coming soon.
+
+macOS binary can be [downloaded here in release page](https://github.com/LingDong-/PoseOSC/releases/tag/v0.0.1). Binaries for other platforms coming soon.
 
 ## Parsing Received Data
 

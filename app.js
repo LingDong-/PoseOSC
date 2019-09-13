@@ -11,7 +11,7 @@ var stats = new Stats();
 stats.showPanel( 0 );
 document.body.appendChild( stats.dom );
 
-var settings = JSON.parse(fs.readFileSync("settings.json", "utf8"));
+var settings = JSON.parse(fs.readFileSync(__dirname +"/settings.json", "utf8"));
 
 function openOSC(){
   osc = new OSC({ plugin: new OSC.DatagramPlugin({

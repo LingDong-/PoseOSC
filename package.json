@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^6.0.9"
+    "electron": "^6.0.9",
+    "electron-packager": "^14.0.6"
   },
   "dependencies": {
     "@tensorflow-models/posenet": "^2.1.3",
