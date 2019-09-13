@@ -26,7 +26,7 @@ PoseOSC currently support 4 formats when transferring data through OSC: `ADDR`, 
 
 In `ADDR` mode, each piece of info is sent to a different OSC Address, such as `poses/0/leftWrist/position` or `poses/2/rightElbow/score`. It is relatively easy for a client app with any OSC implementation to read the input. However, it becomes problematic when there are multiple detections in the frame. As PoseNet does detection frame by frame, the "first" pose in one frame might not be the first pose in the next frame. Since all the coordinate are sent to different addresses and OSC does not guarantee the exact order of which they're received, you might read a pose whose lower half belongs to one person while its upper body belongs to another person.
 
-Therefore, it makes sense to send all the data in an entire frame to one single OSC address when there're multiple persons in the frame. `XML` and `JSON` modes encodes all the poses in a given frame, and send it as a string. The client app can then use an XML/JSON parser (for most languages there are many) (plus some small overhead) to extract the pose information. `ARR` mode sends all the data of a frame as a big flat array of values to a single address, this will probably be fastest out of the four, but you'll need to know how intepret the values correctly (by reading example below) as no extra description/hint is being sent.
+Therefore, it makes sense to send all the data in an entire frame to one single OSC address when there're multiple persons in the frame. `XML` and `JSON` modes encodes all the poses in a given frame, and send it as a string. The client app can then use an XML/JSON parser (for most languages there are many) (plus some small overhead) to extract the pose information. `ARR` mode sends all the data of a frame as a big flat array of values to a single address, this will probably be fastest out of the four, but you'll need to know how interpret the values correctly (by reading example below) as no extra description/hint is being sent.
 
 
 For more information (e.g. How many keypoints are there for 1 person, etc.) please read [PoseNet's specification](https://github.com/tensorflow/tfjs-models/tree/master/posenet)
@@ -141,10 +141,10 @@ I plan to develop tracking as an optional feature. On one hand tracking is essen
 
 ### Processing
 
-See `/demos/PoseOSCProcessingReceiver`. First make sure PoseOSC is running, then fire up [Processing](http://processing.org) and run the demo. You'll see simple black lines indicating the poses.
+See `/demos/PoseOSCProcessingReceiver`. First make sure PoseOSC is running, and that **`format` field is set to `XML`**, then fire up [Processing](http://processing.org) and run the demo. You'll see simple black lines indicating the poses.
 
 ### OpenFrameworks
 
-Coming soon.
+See `/demos/PoseOSCOpenframeworksReceiver`. First compile the OF app (Xcode/make/etc.). While PoseOSC is running and the **`format` field is set to `ARR`**, run the OF app. You'll see simple black lines indicating the poses.
 
 
