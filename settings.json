@@ -1,0 +1,14 @@
+{
+  "multiplePoses":true,
+  "useTestImage":false,
+  "audioHack":true,
+  "host":"localhost",
+  "port":"9527",
+  "format":"XML",
+  "poseNetConig":{
+    "architecture": "MobileNetV1",
+    "outputStride": 16,
+    "inputResolution": 257,
+    "multiplier": 0.75
+  }
+}
