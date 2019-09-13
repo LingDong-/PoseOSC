@@ -23,7 +23,7 @@ function openOSC(){
   osc.open();
 }
 
-openOSC(settings.host,settings.port)
+openOSC()
 
 
 
@@ -184,6 +184,23 @@ function sendPosesADDR(poses){
   }
 }
 
+function sendPosesARR(poses){
+  var arr = ["/poses/arr"]
+  arr.push(camera.videoWidth);
+  arr.push(camera.videoHeight);
+  arr.push(poses.length);
+  for (var i = 0; i < poses.length; i++){
+    arr.push(poses[i].score)
+    for (var j = 0; j < poses[i].keypoints.length; j++){
+      var kpt = poses[i].keypoints[j];
+      arr.push(kpt.position.x);
+      arr.push(kpt.position.y);
+      arr.push(kpt.score);
+    }
+  }
+  osc.send(new OSC.Message(...arr));
+}
+
 function sendPosesXML(poses){
   function rd(n){
     return Math.round(n*100)/100
@@ -255,6 +272,8 @@ async function estimateFrame() {
     sendPosesJSON(poses);
   }else if (settings.format == "ADDR"){
     sendPosesADDR(poses);
+  }else if (settings.format == "ARR"){
+    sendPosesARR(poses);
   }
 
   messageDiv.innerHTML = ["/","-","\\","|"][frameCount%4]+" Detected "+poses.length+" pose(s), sending to "

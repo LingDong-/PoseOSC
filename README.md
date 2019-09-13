@@ -22,11 +22,14 @@ macOS binary can be [downloaded here in release page](https://github.com/LingDon
 
 ## Parsing Received Data
 
-PoseOSC currently support 3 formats when transferring data through OSC: `ADDR`, `XML` and `JSON`. This can be specified by editing the `format` field on the onscreen GUI.
+PoseOSC currently support 4 formats when transferring data through OSC: `ADDR`, `ARR`, `XML` and `JSON`. This can be specified by editing the `format` field on the onscreen GUI. You can pick one that best suits your use case (`ARR` is recommanded for optimal speed).
 
 In `ADDR` mode, each piece of info is sent to a different OSC Address, such as `poses/0/leftWrist/position` or `poses/2/rightElbow/score`. It is relatively easy for a client app with any OSC implementation to read the input. However, it becomes problematic when there are multiple detections in the frame. As PoseNet does detection frame by frame, the "first" pose in one frame might not be the first pose in the next frame. Since all the coordinate are sent to different addresses and OSC does not guarantee the exact order of which they're received, you might read a pose whose lower half belongs to one person while its upper body belongs to another person.
 
-Therefore, it makes sense to send all the data in an entire frame to one single OSC address when there're multiple persons in the frame. `XML` and `JSON` modes encodes all the poses in a given frame, and send it as a string. The client app can then use an XML/JSON parser (for most languages there are many) (plus some small overhead) to extract the pose information.
+Therefore, it makes sense to send all the data in an entire frame to one single OSC address when there're multiple persons in the frame. `XML` and `JSON` modes encodes all the poses in a given frame, and send it as a string. The client app can then use an XML/JSON parser (for most languages there are many) (plus some small overhead) to extract the pose information. `ARR` mode sends all the data of a frame as a big flat array of values to a single address, this will probably be fastest out of the four, but you'll need to know how intepret the values correctly (by reading example below) as no extra description/hint is being sent.
+
+
+For more information (e.g. How many keypoints are there for 1 person, etc.) please read [PoseNet's specification](https://github.com/tensorflow/tfjs-models/tree/master/posenet)
 
 ### ADDR Example
 ```
@@ -72,7 +75,17 @@ JSON format is exactly the same as that of PoseNet's output, see [their document
 
 JSON will be sent to `poses/json` OSC Address as a string.
 
-For more information (e.g. How many keypoints are there for 1 person, etc.) please read [PoseNet's specification](https://github.com/tensorflow/tfjs-models/tree/master/posenet)
+### ARR Example
+
+ARR will be sent to `poses/arr` OSC Address as an array of values (OSC spec allows multiple values of different types for each address).
+
+- The frist value (int) is width of the frame.
+- The second value (int) is height of the frame.
+- The third value (int) is the number of poses. (When you read this value, you'll know how many more values to read, i.e. `nPoses*(1+17*3)`. So if this number is 0 it means no pose is detected, so you can stop reading).
+- The next 52 values are data for the first pose, and the 52 values after that are data for the second pose (if there is), and so on...
+- For each pose, the first value (float) is the score for that pose, the rest 51 values (floats) can be divided into 17 groups of 3, with each group being (x,y,score) of a keypoint. For the ordering of keypoints, see [PoseNet spec]([their documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet)).
+
+The OpenFrameworks example included in `/demo` folder receives `ARR` format.
 
 
 ## Onscreen GUI
@@ -114,6 +127,8 @@ One of `ADDR`, `XML`, `JSON`. See **Parsing Received Data** section for details.
 ## More Settings
 
 More settings can be found in `settings.json`. Some settings involves initializing the neural net are only loaded on start up, such as `poseNetConig`. See [PoseNet documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet) on what options you can specify. (Hint: their new ResNet seem to be much slower but not much better :P)
+
+(The settings file for compiled macOS app can be found at `PoseOSC.app/Contents/Resources/app/settings.json`)
 
 
 ## Tracking

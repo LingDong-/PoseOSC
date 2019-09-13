@@ -4,7 +4,7 @@
   "audioHack":true,
   "host":"localhost",
   "port":"9527",
-  "format":"XML",
+  "format":"ARR",
   "poseNetConig":{
     "architecture": "MobileNetV1",
     "outputStride": 16,
