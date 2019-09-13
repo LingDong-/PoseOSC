@@ -31,23 +31,27 @@ Therefore, it makes sense to send all the data in an entire frame to one single 
 
 For more information (e.g. How many keypoints are there for 1 person, etc.) please read [PoseNet's specification](https://github.com/tensorflow/tfjs-models/tree/master/posenet)
 
-### ADDR Example
+### Method 1: ADDR
 ```
 /nPoses 3
 /videoWidth 640
 /videoHeight 480
 /poses/0/score 0.8
-/poses/0/leftWrist/position 234.4 432.5
-/poses/0/leftWrist/score 0.9
-/poses/0/rightElbow/position 456.2 654.1
+/poses/0/keypoints/leftWrist/x 234.4
+/poses/0/keypoints/leftWrist/y 432.5
+/poses/0/keypoints/leftWrist/score 0.9
+/poses/0/keypoints/rightElbow/x 456.2
+/poses/0/keypoints/rightElbow/y 654.1
+/poses/0/keypoints/rightElbow/score 0.9
 ...
 /poses/1/score 0.7
-/poses/1/leftWrist/position 789.0 987.2
+/poses/1/keypoints/leftWrist/x 789.0
+/poses/1/keypoints/leftWrist/y 987.2
 ...
-/poses/2/rightAnkle/score 0.2
+/poses/2/keypoints/rightAnkle/score 0.2
 ```
 
-### XML Example
+### Method 2: XML
 ```
 <poses videoWidth="640" videoHeight="480" nPoses="3">
 
@@ -69,13 +73,13 @@ For more information (e.g. How many keypoints are there for 1 person, etc.) plea
 ```
 XML will be sent to `poses/xml` OSC Address as a string. The Processing example included in `/demos` folder uses XML parsing.
 
-### JSON Example
+### Method 3: JSON
 
 JSON format is exactly the same as that of PoseNet's output, see [their documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet).
 
 JSON will be sent to `poses/json` OSC Address as a string.
 
-### ARR Example
+### Method 4: ARR
 
 ARR will be sent to `poses/arr` OSC Address as an array of values (OSC spec allows multiple values of different types for each address).
 
@@ -83,7 +87,7 @@ ARR will be sent to `poses/arr` OSC Address as an array of values (OSC spec allo
 - The second value (int) is height of the frame.
 - The third value (int) is the number of poses. (When you read this value, you'll know how many more values to read, i.e. `nPoses*(1+17*3)`. So if this number is 0 it means no pose is detected, so you can stop reading).
 - The next 52 values are data for the first pose, and the 52 values after that are data for the second pose (if there is), and so on...
-- For each pose, the first value (float) is the score for that pose, the rest 51 values (floats) can be divided into 17 groups of 3, with each group being (x,y,score) of a keypoint. For the ordering of keypoints, see [PoseNet spec]([their documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet)).
+- For each pose, the first value (float) is the score for that pose, the rest 51 values (floats) can be divided into 17 groups of 3, with each group being (x,y,score) of a keypoint. For the ordering of keypoints, see [PoseNet spec](https://github.com/tensorflow/tfjs-models/tree/master/posenet).
 
 The OpenFrameworks example included in `/demo` folder receives `ARR` format.
 
@@ -121,7 +125,7 @@ OSC host (something like 127.0.0.1) and OSC port (something like 8000). Press En
 
 ### format
 
-One of `ADDR`, `XML`, `JSON`. See **Parsing Received Data** section for details.
+One of `ADDR`, `ARR`, `XML`, `JSON`. See **Parsing Received Data** section for details.
 
 
 ## More Settings

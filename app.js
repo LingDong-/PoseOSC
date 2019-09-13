@@ -178,7 +178,8 @@ function sendPosesADDR(poses){
     for (var j = 0; j < poses[i].keypoints.length; j++){
       var kpt = poses[i].keypoints[j];
       var pth = '/poses/'+i+"/keypoints/"+kpt.part+"/";
-      osc.send(new OSC.Message(pth+"position",kpt.position.x,kpt.position.y));
+      osc.send(new OSC.Message(pth+"x",kpt.position.x));
+      osc.send(new OSC.Message(pth+"y",kpt.position.y));
       osc.send(new OSC.Message(pth+"score",kpt.score));
     }
   }
