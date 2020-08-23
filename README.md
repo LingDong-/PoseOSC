@@ -152,4 +152,6 @@ See `/demos/PoseOSCProcessingReceiver`. First make sure PoseOSC is running, and 
 See `/demos/PoseOSCOpenframeworksReceiver`. First compile the OF app (Xcode/make/etc.). While PoseOSC is running and the **`format` field is set to `ARR`**, run the OF app. You'll see simple black lines indicating the poses.
 
 
+---
+
 **Made possible with support from The [Frank-Ratchye STUDIO For Creative Inquiry](http://studioforcreativeinquiry.org/) at Carnegie Mellon University.**
