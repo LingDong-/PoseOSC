@@ -72,7 +72,18 @@ var testImage = undefined;
 var testImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg/637px-Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg";
 var frameCount = 0;
 
-navigator.mediaDevices.getUserMedia({video: true})
+
+navigator.mediaDevices.enumerateDevices().then(function(mediaDevices){
+  mediaDevices.forEach(mediaDevice => {
+    if (mediaDevice.kind === 'videoinput') {
+      console.log("camera found:",mediaDevice.label);
+      console.log("deviceId:",mediaDevice.deviceId)
+    }
+  });
+  console.log("copy-paste a deviceId to settings.json to specify which camera to use.")
+})
+
+navigator.mediaDevices.getUserMedia({video:settings.cameraConfig})
   .then(function(stream) {
     camera.srcObject = stream;
   }).catch(function() {
@@ -127,7 +138,6 @@ function generateGUI(){
       d.appendChild(lbl);
       d.appendChild(inp);
     }
-    
     d.style.borderBottom = "1px solid black";
     div.appendChild(d);
   }
@@ -301,7 +311,7 @@ camera.onloadeddata = function(){
   messageDiv.innerHTML = "Camera loaded. Loading PoseNet..."
   var [w,h] = [camera.videoWidth, camera.videoHeight];
 
-  console.log(w,h);
+  console.log("camera dimensions",w,h);
 
   inputCanvas.width = w;
   inputCanvas.height = h;

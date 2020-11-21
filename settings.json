@@ -10,5 +10,10 @@
     "outputStride": 16,
     "inputResolution": 257,
     "multiplier": 0.75
+  },
+  "cameraConfig":{
+    "deviceId":null,
+    "width": null,
+    "height":null
   }
 }
